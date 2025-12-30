@@ -1,20 +1,20 @@
 # RnD-Project
-|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|
-|                                       DESCRIPTION                                     |
-|                                                                                       |
-|   This is a step-by-step guide to setting up the proper virtual environment, with     |
-|   which I worked during the project. The steps denote whether the following line      |
-|   of text is a CLI command by marking it with (CLI), or whether it is textual         |
-|   instructions, denoted by the lack of (CLI).                                         |
-|                                                                                       |
-|_______________________________________________________________________________________|
+|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|<br>
+|                                       DESCRIPTION                                     |<br>
+|                                                                                       |<br>
+|   This is a step-by-step guide to setting up the proper virtual environment, with     |<br>
+|   which I worked during the project. The steps denote whether the following line      |<br>
+|   of text is a CLI command by marking it with (CLI), or whether it is textual         |<br>
+|   instructions, denoted by the lack of (CLI).                                         |<br>
+|                                                                                       |<br>
+|_______________________________________________________________________________________|<br>
 
 ##--------------------STEP 0: Preparations for VENV--------------------##<br>
 Download Anaconda3 from https://www.anaconda.com/download and install the software
 - (CLI) module load GCC/12.3.0
 - (CLI) module avail CUDA
 
-##--------------------STEP 1: Setting up the VENV--------------------##
+##--------------------STEP 1: Setting up the VENV--------------------##<br>
 Install Anaconda 3 in /home/user/
 - (CLI) bash Anaconda3-2025.06-0-Linux-x86_64.sh
 - (CLI) conda init
