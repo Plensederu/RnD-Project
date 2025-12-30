@@ -9,7 +9,7 @@
 |                                                                                       |
 |_______________________________________________________________________________________|
 
-##--------------------STEP 0: Preparations for VENV--------------------##
+##--------------------STEP 0: Preparations for VENV--------------------##<br>
 Download Anaconda3 from https://www.anaconda.com/download and install the software
 - (CLI) module load GCC/12.3.0
 - (CLI) module avail CUDA
@@ -26,11 +26,11 @@ Install Anaconda 3 in /home/user/
 - (CLI) pip install torch torchvision torchaudio accelerate nltk opennmt=1.2.0 sentencepiece ctranslate2 huggingface_hub
 - (CLI) conda install -c nvidia cuda-toolkit=11.8
 
-##--------------------STEP 2: Preparing data--------------------##
+##--------------------STEP 2: Preparing data--------------------##<br>
 Retrieve the data 'paraphrases.zip' [NOTE: The data was provided by my supervisor]
 - (CLI) unzip paraphrases.zip
 
-##--------------------STEP 3: Preparing translation models--------------------##
+##--------------------STEP 3: Preparing translation models--------------------##<br>
 [Facit for NMT: https://github.com/ymoslem/Adaptive-MT-LLM/blob/main/MT/NLLB.ipynb]
 [Facit for LLM: https://huggingface.co/meta-llama/Llama-2-13b-chat-hf/tree/main?library=transformers]
 
