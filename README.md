@@ -1,14 +1,4 @@
 # RnD-Project
-|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|<br>
-|                                       DESCRIPTION                                     |<br>
-|                                                                                       |<br>
-|   This is a step-by-step guide to setting up the proper virtual environment, with     |<br>
-|   which I worked during the project. The steps denote whether the following line      |<br>
-|   of text is a CLI command by marking it with (CLI), or whether it is textual         |<br>
-|   instructions, denoted by the lack of (CLI).                                         |<br>
-|                                                                                       |<br>
-|_______________________________________________________________________________________|<br>
-
 | DESCRIPTION |
 |-------------|
 | This is a step-by-step guide to setting up the proper virtual environment, with which I worked during the project. The steps denote whether the following line of text is a CLI command by marking it with (CLI), or whether it is textual instructions, denoted by the lack of (CLI). |
