@@ -1,6 +1,6 @@
 # RnD-Project
 |‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|<br>
-|                                       DESCRIPTION                                     |<br>
+|<><><><><><><><><><><><><><><><><><><><>DESCRIPTION                                     |<br>
 |                                                                                       |<br>
 |   This is a step-by-step guide to setting up the proper virtual environment, with     |<br>
 |   which I worked during the project. The steps denote whether the following line      |<br>
