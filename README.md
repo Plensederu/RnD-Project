@@ -22,7 +22,7 @@ Install Anaconda 3 in /home/user/
 - (CLI) conda install -c nvidia cuda-toolkit=11.8
 
 ##--------------------STEP 2: Preparing data--------------------##<br>
-Retrieve the data 'paraphrases.zip' [NOTE: The data was provided by my supervisor]
+Retrieve the data 'paraphrases.zip' [NOTE: The data retrieved from the WMT-19 dataset]
 - (CLI) unzip paraphrases.zip
 
 ##--------------------STEP 3: Preparing translation models--------------------##<br>
