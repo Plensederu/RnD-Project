@@ -5,7 +5,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --mem=256G
 #SBATCH --mail-type=END
-#SBATCH -t 20:00:00
+#SBATCH -t 15:00:00
 
 # load module & package
 module load GCC/12.3.0
@@ -75,30 +75,32 @@ with open("get-total.py", "w") as f:
             f.write(cell.source + "\n")
 EOF
 
+# If you wish to try out the code yourself, I made this to keep track of which steps are done for debugging and testing reasons: 
+
                             #|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|#
 #TEMP PATHS                 #|   Pre-masking   |   Post-masking   |#
-NMT='load-nmt.py'           #|   1/1  Done     |   1/1  Done      |#
-LLM='load-llm.py'           #|   9/9  Done     |   9/9  Done      |#
-RM='load-rm.py'             #|   1/1  Done     |   1/1  Done      |#
-TOTAL='get-total.py'        #|   1/1  Done     |   1/1  Done      |#
-BLEU='get-bleu.py'          #|   2/2  Done     |   2/2  Done      |#
-CSV='make-csv.py'           #|   1/1  Done     |   1/1  Done      |#
-PLOT='make-plot.py'         #|   ---           |   1/1  Done      |#
-NOISE='clean-noise.py'      #|   1/1  Done     |   1/1  Done      |#
-SELECT='select-sents.py'    #|   2/2  Done     |   2/2  Done      |#
-MASK='mask-words.py'        #|   1/1  Done     |   ---            |#
+NMT='load-nmt.py'           #|   0/1  Done     |   0/1  Done      |#
+LLM='load-llm.py'           #|   0/9  Done     |   0/9  Done      |#
+RM='load-rm.py'             #|   0/1  Done     |   0/1  Done      |#
+TOTAL='get-total.py'        #|   0/1  Done     |   0/1  Done      |#
+BLEU='get-bleu.py'          #|   0/2  Done     |   0/2  Done      |#
+CSV='make-csv.py'           #|   0/1  Done     |   0/1  Done      |#
+PLOT='make-plot.py'         #|   ---           |   0/1  Done      |#
+NOISE='clean-noise.py'      #|   0/9  Done     |   0/1  Done      |#
+SELECT='select-sents.py'    #|   0/9  Done     |   0/9  Done      |#
+MASK='mask-words.py'        #|   0/1  Done     |   ---            |#
                             #|____________________________________|#
 
-#EXECUTE SCRIPTS
+#----------------------------WITHOUT MASKING----------------------------#
 #--------LOAD MODELS--------#
 python $NMT ''
-for i in $(seq 0 8); do                                 # loops over temps (CLI range is inclusive)
+for i in $(seq 0 8); do
     if [[ $i -eq 0 ]]; then
-        prfx_1=$(printf "%.2f" 0.01)                    # sets first iteration to 0.01 instead of 0.00
+        prfx_1=$(printf "%.2f" 0.01)
     else
-        prfx_1=$(printf "%.2f" $(echo "$i*0.2" | bc))   # prefix 1 ranges from 0.2 up to 1.6; actual temps
+        prfx_1=$(printf "%.2f" $(echo "$i*0.2" | bc))
     fi
-    prfx_2=$(printf "%02d" $((i*2)))                    # prefix 2 ranges from 00 to 16; used for names
+    prfx_2=$(printf "%02d" $((i*2)))
     python $LLM $prfx_1 $prfx_2 ''
 done
 
@@ -119,8 +121,8 @@ done
 
 #--------BLEU SCORE--------#
 python $BLEU nmt '' ''
-for i in $(seq 0 8); do                                # loops over temps
-    prfx=$(printf "t%02d_" $((i*2)))                   # prefix same as prefix 2 in previous loop
+for i in $(seq 0 8); do
+    prfx=$(printf "t%02d_" $((i*2)))
     python $BLEU llm $prfx ''
 done
 python $CSV ''
@@ -132,8 +134,11 @@ for i in $(seq 0 8); do
 done
 python $TOTAL 
 
+#----------------------------WITH MASKING----------------------------#
 #--------PERTURBATION--------#
 python $MASK
+
+#--------LOAD MODELS--------#
 python $NMT '-mask'
 for i in $(seq 0 8); do
     if [[ $i -eq 0 ]]; then
@@ -144,20 +149,28 @@ for i in $(seq 0 8); do
     prfx_2=$(printf "%02d" $((i*2)))
     python $LLM $prfx_1 $prfx_2 '-mask'
 done
+
+#--------REMOVE NOISE--------#
 for i in $(seq 0 8); do
     temp=$(printf "t%02d" $((i*2)))
     python $NOISE $temp '-mask'
 done
+
+#--------SELECT SENTENCES--------#
 for i in $(seq 0 8); do
     temp=$(printf "t%02d" $((i*2)))
     python $SELECT llm $temp '-mask'
 done
+
+#--------BLEU SCORE--------#
 python $BLEU nmt '' '-mask'
 for i in $(seq 0 8); do
     prfx=$(printf "t%02d_" $((i*2)))
     python $BLEU llm $prfx '-mask'
 done
 python $CSV '-mask'
+
+#--------REWARD MODEL--------#
 for i in $(seq 0 8); do
     temp=$(printf "t%02d" $((i*2)))
     python $RM $temp 'mask-'
