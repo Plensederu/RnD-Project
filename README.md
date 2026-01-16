@@ -18,7 +18,7 @@ Install Anaconda 3 in /home/user/
 - (CLI) mamba create -n nlp-gpu python=3.10
 - (CLI) conda activate nlp-gpu
 - (CLI) pip install torch=2.3.1 --index-url https://download.pytorch.org/whl/cu121
-- (CLI) pip install torch torchvision torchaudio accelerate nltk opennmt=1.2.0 sentencepiece ctranslate2 huggingface_hub nbformat pandas sentence_transformers spacy spacy-curated-transformers
+- (CLI) pip install torch torchvision torchaudio nltk opennmt=1.2.0 sentencepiece ctranslate2 huggingface_hub nbformat pandas sentence_transformers spacy spacy-curated-transformers
 - (CLI) conda install -c nvidia cuda-toolkit=11.8
 
 ##--------------------STEP 2: Preparing data--------------------##<br>
