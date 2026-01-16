@@ -5,14 +5,14 @@
 #SBATCH --gres=gpu:1
 #SBATCH --mem=256G
 #SBATCH --mail-type=END
-#SBATCH -t 15:00:00
+#SBATCH -t 20:00:00
 
 # load module & package
 module load GCC/12.3.0
 
 export CUDA_VISIBLE_DEVICES
 export PYTORCH_ALLOC_CONF=expandable_segments:True
-export ACCESS_TOKEN=#Replace with HF access token
+export ACCESS_TOKEN= replace with Hugging Face access token
 
 # setup conda environment and test whether GPU acces is TRUE
 source /proj/uppmax2025-3-5/private/max/anaconda3/etc/profile.d/conda.sh
@@ -73,25 +73,33 @@ with open("get-total.py", "w") as f:
     for cell in nb.cells:
         if 'MASK' in cell.get('metadata', {}).get('tags', []):
             f.write(cell.source + "\n")
+
+with open("stat-sign-test.py", "w") as f:
+    for cell in nb.cells:
+        if 'SIGNIFICANCE' in cell.get('metadata', {}).get('tags', []):
+            f.write(cell.source + "\n")
 EOF
 
-# If you wish to try out the code yourself, I made this to keep track of which steps are done for debugging and testing reasons: 
+#                           If you wish to try out the code yourself, 
+#                           I made this to keep track of which steps 
+#                           are done for debugging and testing reasons: 
 
                             #|‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾|#
 #TEMP PATHS                 #|   Pre-masking   |   Post-masking   |#
 NMT='load-nmt.py'           #|   0/1  Done     |   0/1  Done      |#
 LLM='load-llm.py'           #|   0/9  Done     |   0/9  Done      |#
-RM='load-rm.py'             #|   0/1  Done     |   0/1  Done      |#
+RM='load-rm.py'             #|   0/9  Done     |   0/9  Done      |#
 TOTAL='get-total.py'        #|   0/1  Done     |   0/1  Done      |#
-BLEU='get-bleu.py'          #|   0/2  Done     |   0/2  Done      |#
+BLEU='get-bleu.py'          #|   0/10 Done     |   0/10 Done      |#
 CSV='make-csv.py'           #|   0/1  Done     |   0/1  Done      |#
 PLOT='make-plot.py'         #|   ---           |   0/1  Done      |#
-NOISE='clean-noise.py'      #|   0/9  Done     |   0/1  Done      |#
-SELECT='select-sents.py'    #|   0/9  Done     |   0/9  Done      |#
+NOISE='clean-noise.py'      #|   0/9  Done     |   0/9  Done      |#
+SELECT='select-sents.py'    #|   0/2  Done     |   0/2  Done      |#
 MASK='mask-words.py'        #|   0/1  Done     |   ---            |#
+STT='stat-sign-test.py'     #|   0/1  Done     |   0/1  Done      |#
                             #|____________________________________|#
 
-#----------------------------WITHOUT MASKING----------------------------#
+#----------------------------BEFORE MASKING----------------------------#
 #--------LOAD MODELS--------#
 python $NMT ''
 for i in $(seq 0 8); do
@@ -133,11 +141,12 @@ for i in $(seq 0 8); do
     python $RM $temp ''
 done
 python $TOTAL 
+python $SST ''
 
-#----------------------------WITH MASKING----------------------------#
 #--------PERTURBATION--------#
 python $MASK
 
+#----------------------------AFTER MASKING----------------------------#
 #--------LOAD MODELS--------#
 python $NMT '-mask'
 for i in $(seq 0 8); do
@@ -159,7 +168,7 @@ done
 #--------SELECT SENTENCES--------#
 for i in $(seq 0 8); do
     temp=$(printf "t%02d" $((i*2)))
-    python $SELECT llm $temp '-mask'
+    python $SELECT llm $temp ''
 done
 
 #--------BLEU SCORE--------#
@@ -176,6 +185,7 @@ for i in $(seq 0 8); do
     python $RM $temp 'mask-'
 done
 python $TOTAL 'mask-'
+python $SST '-mask'
 
 #--------PLOT BLEU--------#
 python $PLOT
